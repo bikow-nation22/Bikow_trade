@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Post a Delivery Request</h1>
+<a href="/delivery">Back to Delivery Requests</a>
+<form method="post">
+<label>Name: <input type="text" name="name" required></label><br>
+<label>From Location: <input type="text" name="from_location" required></label><br>
+<label>To Location: <input type="text" name="to_location" required></label><br>
+<label>Phone Number: <input type="tel" name="phone" required></label><br>
+<button type="submit">Post Delivery Request</button>
+</form>
+{% endblock %}

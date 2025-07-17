@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>📍 Live Agent Tracker</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+  <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+  <style>
+    body { font-family: sans-serif; margin: 0; padding: 0; }
+    #map { height: 100vh; width: 100%; }
+  </style>
+</head>
+<body>
+  <h2 style="text-align:center">🛰️ Tracking All Agents Live</h2>
+  <div id="map"></div>
+
+  <script>
+    const socket = io();
+    const map = L.map('map').setView([0, 0], 5);
+    const markers = {};  // Track agents by ID
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap'
+    }).addTo(map);
+
+    // Initial fetch of all agents
+    fetch("/api/agents/locations")
+      .then(res => res.json())
+      .then(data => {
+        data.forEach(agent => {
+          if (agent.lat && agent.lng) {
+            const m = L.marker([agent.lat, agent.lng])
+              .addTo(map)
+              .bindPopup(`<strong>${agent.name}</strong><br>📞 ${agent.phone}`);
+            markers[agent.id] = m;
+          }
+        });
+      });
+
+    // Live updates
+    socket.on("location_update", data => {
+      const id = data.agent_id;
+      if (!markers[id]) {
+        markers[id] = L.marker([data.latitude, data.longitude])
+          .addTo(map)
+          .bindPopup(`Agent ID ${id}`);
+      } else {
+        markers[id].setLatLng([data.latitude, data.longitude]);
+      }
+    });
+  </script>
+</body>
+</html>

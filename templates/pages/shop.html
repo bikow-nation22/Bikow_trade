@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container py-4">
+  <h2 class="text-center text-white mb-4">🛒 Available Products</h2>
+
+  {% if products %}
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+      {% for p in products %}
+        <div class="col">
+          <div class="card shadow-lg h-100">
+            <img src="{{ url_for('uploaded_file', filename=p[6]) }}" class="card-img-top" alt="{{ p[1] }}">
+            <div class="card-body">
+              <h5 class="card-title">{{ p[1] }}</h5>
+              <p class="card-text text-success fw-bold">Tsh {{ p[2] }}</p>
+              <p class="card-text">{{ p[3] }}</p>
+              <p class="card-text"><small class="text-muted">📂 {{ p[4] }}</small></p>
+            </div>
+            <div class="card-footer d-flex justify-content-between">
+              <a href="/checkout/{{ p[0] }}">🛒 Buy Now</a>
+              <a href="/rate_product/{{ p[0] }}">⭐ Rate</a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="text-center text-white">No products found.</p>
+  {% endif %}
+</div>
+
+{% endblock %}

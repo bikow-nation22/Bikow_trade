@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>🛡️ Agent Approval Dashboard</h2>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Email</th>
+<th>Phone</th>
+<th>Vehicle</th>
+<th>Status</th>
+<th>Rating</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+{% for agent in agents %}
+<tr>
+<td>{{ agent[1] }}</td> <!-- Name -->
+<td>{{ agent[2] }}</td> <!-- Email -->
+<td>{{ agent[3] }}</td> <!-- Phone -->
+<td>{{ agent[4] }}</td> <!-- Vehicle -->
+<td>
+{% if agent[5] == 1 %}
+✅ Verified
+{% else %}
+⏳ Pending
+{% endif %}
+</td>
+<td>
+{% if agent[6] %}
+{{ agent[6] }} ⭐
+{% else %}
+-
+{% endif %}
+</td>
+<td>
+{% if agent[5] == 0 %}
+<a class="btn" href="/admin/agents/approve/{{ agent[0] }}">Approve</a>
+{% else %}
+<span class="btn disabled">Approved</span>
+{% endif %}
+</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>📡 Tracking Agent Live</h2>
+<div id="map" style="width:100%; height:300px; border:1px solid #ccc;"></div>
+
+<script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
+<script>
+const socket = io();
+const agentId = {{ agent_id }};
+
+socket.emit('join', { agent_id: agentId });
+
+socket.on('agent_location', data => {
+  const { lat, lon } = data;
+  document.getElementById("map").innerHTML = `
+    <iframe width="100%" height="100%" frameborder="0"
+      src="https://maps.google.com/maps?q=${lat},${lon}&output=embed"></iframe>`;
+});
+</script>
+{% endblock %}

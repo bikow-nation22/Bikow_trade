@@ -1,0 +1,21 @@
+<h2>All Ads</h2>
+{% if is_admin %}
+    <a href="{{ url_for('ads.add_ad') }}">➕ Add New Ad</a>
+{% endif %}
+<ul>
+    {% for ad in ads %}
+        <li>
+            <h3>{{ ad.title }}</h3>
+            <p>{{ ad.description }}</p>
+            {% if ad.image %}
+                <img src="{{ url_for('static', filename='uploads/' + ad.image) }}" width="200"><br>
+            {% endif %}
+            {% if is_admin %}
+                <a href="{{ url_for('ads.edit_ad', ad_id=ad.id) }}">✏️ Edit</a> |
+                <form action="{{ url_for('ads.delete_ad', ad_id=ad.id) }}" method="POST" style="display:inline;">
+                    <button type="submit" onclick="return confirm('Delete this ad?')">🗑️ Delete</button>
+                </form>
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Welcome, {{ agent[0] }}</h2>
+<p><strong>Email:</strong> {{ agent[1] }}</p>
+<p><strong>Phone:</strong> {{ agent[2] }}</p>
+<p><strong>Vehicle:</strong> {{ agent[3] }}</p>
+<p><strong>Status:</strong> {{ "✅ Verified" if agent[4] else "⏳ Pending Verification" }}</p>
+<p><strong>Total Deliveries:</strong> {{ agent[5] }}</p>
+<p><strong>Last Active:</strong> {{ agent[6] or "Never" }}</p>
+
+<h3>📍 My Current Live Location</h3>
+<p id="location-status">Tracking...</p>
+<p><strong>Latitude:</strong> <span id="lat"></span></p>
+<p><strong>Longitude:</strong> <span id="lon"></span></p>
+
+<div id="map" style="width: 100%; height: 300px; border:1px solid #ccc;"></div>
+
+<script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+<script>
+const socket = io();
+
+// Send location updates to server
+function trackLocation() {
+  if (!navigator.geolocation) {
+    document.getElementById("location-status").textContent = "❌ Geolocation not supported.";
+    return;
+  }
+
+  navigator.geolocation.watchPosition((position) => {
+    const lat = position.coords.latitude;
+    const lon = position.coords.longitude;
+
+    document.getElementById("lat").textContent = lat.toFixed(5);
+    document.getElementById("lon").textContent = lon.toFixed(5);
+    document.getElementById("location-status").textContent = "✅ Live location sent.";
+
+    socket.emit("location_update", {
+      latitude: lat,
+      longitude: lon
+    });
+
+    document.getElementById("map").innerHTML =
+      `<iframe width="100%" height="100%" frameborder="0"
+      src="https://maps.google.com/maps?q=${lat},${lon}&z=15&output=embed"></iframe>`;
+  },
+  (err) => {
+    document.getElementById("location-status").textContent = "❌ Error: " + err.message;
+  });
+}
+
+window.onload = trackLocation;
+</script>
+{% endblock %}

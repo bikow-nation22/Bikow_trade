@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container card">
+  <h2>My Profile</h2>
+
+  <form method="POST" action="/user/profile/update">
+    <label for="name">Name:</label>
+    <input type="text" name="name" value="{{ user.name }}" required>
+
+    <label for="phone">Phone Number:</label>
+    <input type="text" name="phone" value="{{ user.phone }}" required>
+
+    <label for="provider">Mobile Provider:</label>
+    <select name="provider" required>
+      <option value="">-- Select Provider --</option>
+      <option value="tigopesa" {% if user.provider == 'tigopesa' %}selected{% endif %}>Tigo Pesa</option>
+      <option value="airtelmoney" {% if user.provider == 'airtelmoney' %}selected{% endif %}>Airtel Money</option>
+      <option value="halopesa" {% if user.provider == 'halopesa' %}selected{% endif %}>Halo Pesa</option>
+      <option value="easypesa" {% if user.provider == 'easypesa' %}selected{% endif %}>Easy Pesa</option>
+    </select>
+
+    <label for="paybill_number">Paybill/Till Number:</label>
+    <input type="text" name="paybill_number" value="{{ user.paybill_number }}" required>
+
+    <button type="submit">Update Profile</button>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Rate Agent</h2>
+<form method="POST">
+<label>Rating (1 to 5):</label>
+<input type="number" name="rating" min="1" max="5" required><br><br>
+<label>Comment (optional):</label><br>
+<textarea name="comment" rows="4" cols="30"></textarea><br><br>
+<button type="submit">Submit Rating</button>
+</form>
+{% endblock %}

@@ -1,0 +1,21 @@
+<h2>Welcome, {{ agent_name }}</h2>
+<h3>Your Assigned Deliveries</h3>
+<table border="1">
+<tr>
+<th>From</th><th>To</th><th>Phone</th><th>Status</th><th>Proof</th><th>Upload</th>
+</tr>
+{% for d in deliveries %}
+<tr>
+<td>{{ d[2] }}</td>
+<td>{{ d[3] }}</td>
+<td>{{ d[4] }}</td>
+<td>{{ d[5] }}</td>
+<td>{% if d[6] %}<a href="/agent/uploads/receipt/{{ d[6] }}" target="_blank">View</a>{% else %}-{% endif %}</td>
+<td>
+{% if d[5] != 'Delivered' %}
+<a href="{{ url_for('agent_auth.upload_proof', delivery_id=d[0]) }}">Upload Proof</a>
+{% else %}✅{% endif %}
+</td>
+</tr>
+{% endfor %}
+</table>

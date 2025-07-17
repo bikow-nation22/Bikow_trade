@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Post a New Product</h1>
+<a href="/shop">Back to Shop</a>
+<form method="post" enctype="multipart/form-data">
+<label>Name: <input type="text" name="name" required></label><br>
+<label>Price: <input type="text" name="price" required></label><br>
+<label>Description: <textarea name="description"></textarea></label><br>
+<label>Category: <input type="text" name="category"></label><br>
+<label>Phone Number: <input type="tel" name="phone" required></label><br>
+<label>Image: <input type="file" name="image" accept=".jpg,.jpeg,.png" required></label><br>
+<button type="submit">Post Product</button>
+</form>
+{% endblock %}

@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Upload Payment Proof</h2>
+<form method="POST" enctype="multipart/form-data">
+  <input type="file" name="proof" accept="image/*" required>
+  <button type="submit">Upload</button>
+</form>
+{% endblock %}

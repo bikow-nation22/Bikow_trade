@@ -1,0 +1,66 @@
+/* static/style.css */
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: url('/static/images/app_bg.jpg') no-repeat center center fixed;
+  background-size: cover;
+  color: #fff;
+  position: relative;
+  min-height: 100vh;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  padding: 20px;
+}
+
+h1, h2, p {
+  text-align: center;
+  color: #ffdb70;
+}
+
+button, a.button {
+  display: inline-block;
+  padding: 12px 24px;
+  margin: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  background: #ff9800;
+  color: white;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.3s ease;
+}
+
+button:hover, a.button:hover {
+  background: #e68900;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 15px auto;
+  max-width: 600px;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+  text-align: center;
+}
+input, select, textarea {
+  color: #fff;  /* White text */
+  background-color: rgba(255, 255, 255, 0.08); /* translucent background */
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 6px;
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #ccc;
+}

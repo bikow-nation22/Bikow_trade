@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if delivery %}
+  <h2>Rate Delivery to {{ delivery[1] }}</h2>
+  <p>Delivered by: {{ delivery[0] }}</p>
+  <form method="POST">
+    <label>Select Rating (1 to 5):</label><br>
+    <select name="rating" required>
+      <option value="">Choose</option>
+      <option value="1">⭐️</option>
+      <option value="2">⭐️⭐️</option>
+      <option value="3">⭐️⭐️⭐️</option>
+      <option value="4">⭐️⭐️⭐️⭐️</option>
+      <option value="5">⭐️⭐️⭐️⭐️⭐️</option>
+    </select><br><br>
+    <button type="submit">Submit Rating</button>
+  </form>
+{% else %}
+  <p>Delivery details not found.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,13 @@
+<h2>Edit Ad</h2>
+<form method="POST">
+  <label>Title:</label>
+  <input name="title" value="{{ ad.title }}"><br>
+
+  <label>Description:</label>
+  <textarea name="description">{{ ad.description }}</textarea><br>
+
+  <label>Image URL:</label>
+  <input name="image_url" value="{{ ad.image_url }}"><br>
+
+  <button type="submit">Update Ad</button>
+</form>

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Create New Ad</h2>
+<form method="POST">
+  <label>Ad Title:</label><br>
+  <input type="text" name="title" required><br><br>
+
+  <label>Agent Name:</label><br>
+  <input type="text" name="agent_name" required><br><br>
+
+  <label>City:</label><br>
+  <input type="text" name="city" required><br><br>
+
+  <label>Ad Content:</label><br>
+  <textarea name="content" required></textarea><br><br>
+
+  <button type="submit">Submit</button>
+</form>
+{% endblock %}

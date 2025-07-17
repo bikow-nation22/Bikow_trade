@@ -1,0 +1,86 @@
+<!-- Map Container -->
+<div id="map" style="height: 500px; width: 100%;"></div>
+
+<!-- Assign Delivery Form (Hidden Initially) -->
+<div id="assign-form" style="display:none; position:fixed; bottom:20px; left:20px; background:white; border:1px solid #ccc; padding:10px; z-index:1000;">
+  <h4>Assign Delivery</h4>
+  <input type="hidden" id="agent_id">
+  <input type="text" id="delivery_name" placeholder="Customer Name"><br>
+  <input type="text" id="from" placeholder="Pickup Location"><br>
+  <input type="text" id="to" placeholder="Drop Location"><br>
+  <input type="text" id="phone" placeholder="Phone Number"><br><br>
+  <button onclick="submitDelivery()">Assign</button>
+  <button onclick="document.getElementById('assign-form').style.display='none'">Cancel</button>
+</div>
+
+<!-- Include Leaflet.js & Socket.IO -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://cdn.socket.io/4.3.2/socket.io.min.js"></script>
+
+<script>
+const map = L.map('map').setView([-6.8, 39.28], 12);  // Tanzania default
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: 'Map data © OpenStreetMap contributors'
+}).addTo(map);
+
+const socket = io();  // Automatically connects to current host
+const markers = {};
+
+socket.on('location_update', (data) => {
+  const { agent_id, latitude, longitude, status } = data;
+  const lat = parseFloat(latitude);
+  const lon = parseFloat(longitude);
+
+  const iconColor = status === 'available' ? 'green' :
+                    status === 'busy' ? 'orange' : 'red';
+
+  const icon = new L.Icon({
+    iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-${iconColor}.png`,
+    shadowUrl: 'https://unpkg.com/leaflet@1.6/dist/images/marker-shadow.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
+  });
+
+  if (markers[agent_id]) {
+    markers[agent_id].setLatLng([lat, lon]);
+    markers[agent_id].setIcon(icon);
+  } else {
+    const marker = L.marker([lat, lon], { icon }).addTo(map);
+    marker.bindPopup(`Agent ID: ${agent_id}<br>Status: ${status}`);
+    marker.on('click', () => {
+      document.getElementById('agent_id').value = agent_id;
+      document.getElementById('assign-form').style.display = 'block';
+    });
+    markers[agent_id] = marker;
+  }
+});
+
+// Assign Delivery Button Logic
+function submitDelivery() {
+  const data = {
+    agent_id: document.getElementById('agent_id').value,
+    name: document.getElementById('delivery_name').value,
+    from_location: document.getElementById('from').value,
+    to_location: document.getElementById('to').value,
+    phone: document.getElementById('phone').value
+  };
+
+  fetch('/assign_delivery', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  })
+  .then(res => res.json())
+  .then(result => {
+    alert(result.msg || "✅ Delivery assigned");
+    document.getElementById('assign-form').style.display = 'none';
+  })
+  .catch(err => {
+    console.error("Assign error:", err);
+    alert("❌ Failed to assign delivery.");
+  });
+}
+</script>

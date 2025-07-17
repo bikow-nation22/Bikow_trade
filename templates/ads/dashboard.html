@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>📢 Active Ads</h2>
+<a href="{{ url_for('ads.new_ad') }}">➕ Create New Ad</a>
+<ul>
+  {% for ad in ads %}
+    <li>
+      <strong>{{ ad.title }}</strong> by {{ ad.agent_name }} in {{ ad.city }}<br>
+      {{ ad.content }}<br>
+      <em>Posted on: {{ ad.date_posted.strftime('%Y-%m-%d') }}</em>
+    </li>
+  {% endfor %}
+</ul>
+{% endblock %}

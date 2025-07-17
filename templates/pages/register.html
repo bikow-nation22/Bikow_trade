@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container card">
+  <h2>Register</h2>
+  <form method="POST" action="/user/register">
+    <label for="name">Full Name:</label>
+    <input type="text" name="name" required>
+
+    <label for="phone">Phone Number:</label>
+    <input type="text" name="phone" required>
+
+    <label for="password">Password:</label>
+    <input type="password" name="password" required>
+
+    <label for="provider">Mobile Network:</label>
+    <select name="provider" required>
+      <option value="">-- Select Provider --</option>
+      <option value="tigopesa">Tigo Pesa</option>
+      <option value="airtelmoney">Airtel Money</option>
+      <option value="halopesa">Halo Pesa</option>
+      <option value="easypesa">Easy Pesa</option>
+    </select>
+
+    <label for="paybill_number">Paybill/Till Number:</label>
+    <input type="text" name="paybill_number" placeholder="e.g. 123456" required>
+
+    <button type="submit">Register</button>
+  </form>
+</div>
+{% endblock %}

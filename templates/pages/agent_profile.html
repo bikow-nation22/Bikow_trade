@@ -1,0 +1,17 @@
+<h2>Agent: {{ agent[1] }}</h2>
+<p><strong>Email:</strong> {{ agent[2] }}</p>
+<p><strong>Phone:</strong> {{ agent[3] }}</p>
+<p><strong>Vehicle:</strong> {{ agent[4] }}</p>
+<p><strong>Total Deliveries:</strong> {{ agent[5] }}</p>
+<p><strong>Last Active:</strong> {{ agent[6] or "Never" }}</p>
+<h3>User Ratings</h3>
+{% if ratings %}
+<ul>
+{% for r in ratings %}
+<li>⭐ {{ r[0] }} - {{ r[1] }} <small>({{ r[2] }})</small></li>
+{% endfor %}
+</ul>
+{% else %}
+<p>No ratings yet.</p>
+{% endif %}
+<a href="{{ url_for('agent_auth.rate_agent', agent_id=agent[0]) }}">Rate this Agent</a>

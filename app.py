@@ -5,6 +5,7 @@ from flask import Flask, render_template, request, redirect, url_for, send_from_
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit
 from werkzeug.utils import secure_filename
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 # Project imports
 from database import db

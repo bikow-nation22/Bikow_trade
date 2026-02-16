@@ -1,10 +1,18 @@
 # payments/stripe.py
 import os
-import stripe
+try:
+    import stripe
+    STRIPE_AVAILABLE = True
+except ImportError:
+    STRIPE_AVAILABLE = False
 
 STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY")
 
-def create_checkout_session(name, price):
+def create_checkout_session(...):
+    if not STRIPE_AVAILABLE:
+        return {"error": "Stripe temporarily unavailable"}
+
+    # normal stripe code below
     try:
         session = stripe.checkout.Session.create(
             payment_method_types=["card"],

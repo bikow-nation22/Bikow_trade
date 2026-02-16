@@ -46,7 +46,6 @@ def admin_required(f):
 
 db.init_app(app)  # Move this here after config
 
-socketio = SocketIO(app, async_mode='threading', cors_allowed_origins="*")
 
 # Register auth blueprints
 app.register_blueprint(user_auth_blueprint, url_prefix="/user")

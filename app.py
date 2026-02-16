@@ -3,7 +3,6 @@ import sqlite3
 from datetime import datetime
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory, session, jsonify
 from flask_cors import CORS
-from flask_socketio import SocketIO, emit
 from werkzeug.utils import secure_filename
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
@@ -476,17 +475,6 @@ def delete_ad(ad_id):
     flash("Ad deleted", "warning")
     return redirect(url_for("list_ads"))
 
-# -------------------- SocketIO Route --------------------
-@socketio.on('connect')
-def on_connect():
-    print("🟢 Client connected")
-
-@socketio.on('disconnect')
-def on_disconnect():
-    print("🔴 Client disconnected")
-
 # -------------------- Start --------------------
 if __name__ == "__main__":
-    with app.app_context():
-        db.create_all()
-    socketio.run(app, host="0.0.0.0", port=5000, debug=True)
+    app.run()

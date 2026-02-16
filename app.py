@@ -10,11 +10,16 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 from database import db
 from auth.routes import auth as user_auth_blueprint
 from auth.agent_routes import agent_auth
+# Optional payment modules
+try:
+    from payments import mpesa_ke
+except Exception:
+    mpesa_ke = None
+
 try:
     from payments.stripe import create_checkout_session
-except ImportError:
+except Exception:
     create_checkout_session = None
-from payments import mpesa_ke
 from utils.sms_sender import send_sms
 from models.delivery import get_delivery_by_id
 from routes.ads import ads as ads_blueprint
